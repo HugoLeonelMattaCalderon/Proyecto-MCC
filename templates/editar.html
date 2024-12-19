@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Hermano</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <h1>Editar Hermano</h1>
+
+    <!-- Formulario para actualizar datos -->
+    <form method="POST" action="/actualizar/{{ hermano['ID'] }}">
+        <label for="nombre">Nombre Completo:</label>
+        <input type="text" id="nombre" name="nombre" value="{{ hermano['NOMBRE COMPLETO'] }}" required><br>
+
+        <label for="telefono">Teléfono:</label>
+        <input type="text" id="telefono" name="telefono" value="{{ hermano['TELEFONO'] }}" required><br>
+
+        <label for="mensaje">Mensaje:</label>
+        <input type="text" id="mensaje" name="mensaje" value="{{ hermano['MENSAJE'] }}" required><br>
+
+        <button type="submit" style="background-color: #007bff; color: white; padding: 10px; border: none; cursor: pointer;">
+            Guardar Cambios
+        </button>
+    </form>
+
+    <a href="{{ url_for('index') }}" style="margin-top: 20px; display: inline-block; text-decoration: none; color: #007bff;">
+        <i class="fas fa-arrow-left"></i> Volver a la lista
+    </a>
+</body>
+</html>

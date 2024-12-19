@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Toma de Asistencias</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Encabezado dividido en dos partes -->
+    <div class="header">
+        <div class="header-content">
+            <h1>Toma de Asistencias</h1>
+        </div>
+        <div class="header-image"></div>
+    </div>
+
+    <!-- Lista de hermanos después del encabezado -->
+    <div style="margin-top: 20px;">
+        <h2>Lista de Hermanos</h2>
+        <!-- Fila con botones y ventana de mensajes personalizados -->
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+            <!-- Botón para enviar mensajes a los inasistentes -->
+            <form method="POST" action="/enviar_mensajes_asistencia">
+                <button type="submit" class="btn-green">
+                    <i class="fas fa-paper-plane"></i> Enviar Mensajes (Inasistentes)
+                </button>
+            </form>
+            <!-- Espaciado flexible -->
+            <div style="flex-grow: 1;"></div>
+            <!-- Botón y ventana de mensajes personalizados -->
+            <form id="mensajePersonalizadoForm" method="POST" action="/enviar_mensajes_personalizados" style="display: flex; gap: 10px;">
+                <textarea id="mensaje_personalizado" name="mensaje_personalizado" rows="1" placeholder="Escribe tu mensaje aquí..." required></textarea>
+                <button type="submit" class="btn-blue">
+                    <i class="fas fa-envelope"></i> Enviar Mensajes Personalizados
+                </button>
+            </form>
+        </div>
+
+        <!-- Único listado de hermanos -->
+        <form method="POST" action="/">
+            <table>
+                <tr>
+                    <th>Seleccionar</th> <!-- Para mensajes personalizados -->
+                    <th>ID</th>
+                    <th>Nombre Completo</th>
+                    <th>Teléfono</th>
+                    <th>Mensaje</th>
+                    <th>Inasistencias</th>
+                    <th>¿Asistió?</th> <!-- Para asistencia -->
+                    <th>Acciones</th>
+                </tr>
+                {% for hermano in hermanos %}
+                <tr>
+                    <td>
+                        <!-- Checkbox para mensajes personalizados -->
+                        <input type="checkbox" name="seleccionados" value="{{ hermano['ID'] }}" form="mensajePersonalizadoForm">
+                    </td>
+                    <td>{{ hermano["ID"] }}</td>
+                    <td>{{ hermano["NOMBRE COMPLETO"] }}</td>
+                    <td>{{ hermano["TELEFONO"] }}</td>
+                    <td>{{ hermano["MENSAJE"] }}</td>
+                    <td>{{ hermano["Inasistencias"] }}</td>
+                    <td>
+                        <!-- Checkbox para asistencia -->
+                        <input type="checkbox" name="asistio" value="{{ hermano['ID'] }}">
+                    </td>
+                    <td>
+                        <a href="{{ url_for('editar', id=hermano['ID']) }}" title="Editar">
+                            <i class="fas fa-edit" style="color: #007bff;"></i>
+                        </a>
+                        <a href="{{ url_for('eliminar', id=hermano['ID']) }}" title="Eliminar" onclick="return confirm('¿Estás seguro de que deseas eliminar este hermano?');">
+                            <i class="fas fa-trash-alt" style="color: #dc3545; margin-left: 10px;"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            <button type="submit" class="btn-green" style="margin-top: 10px;">Guardar Asistencias</button>
+        </form>
+    </div>
+
+    <!-- Formulario para agregar nuevo hermano -->
+    <h2>Agregar Nuevo Hermano</h2>
+    <form method="POST" action="/agregar">
+        <label for="nombre">Nombre Completo:</label>
+        <input type="text" id="nombre" name="nombre" required><br>
+        <label for="telefono">Teléfono:</label>
+        <input type="text" id="telefono" name="telefono" required><br>
+        <label for="mensaje">Mensaje:</label>
+        <input type="text" id="mensaje" name="mensaje" required><br>
+        <button type="submit" class="btn-blue">Agregar Hermano</button>
+    </form>
+</body>
+</html>
