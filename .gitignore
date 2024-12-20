@@ -1,0 +1,12 @@
+# Ignorar archivos sensibles
+credenciales.json
+
+# Ignorar entornos virtuales
+venv/
+
+# Ignorar bases de datos temporales
+*.db
+
+# Ignorar archivos generados por el sistema operativo
+.DS_Store
+Thumbs.db
