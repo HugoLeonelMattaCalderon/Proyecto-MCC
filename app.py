@@ -11,6 +11,9 @@ app = Flask(__name__)
 app.secret_key = "secreto"
 
 # Configuración de Google Sheets API
+# Definir los scopes (permisos de la API)
+scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+
 # Cargar las credenciales desde la variable de entorno
 credentials_json = os.getenv("GOOGLE_CREDENTIALS")  # Carga el contenido de la variable de entorno
 if credentials_json:
@@ -21,6 +24,7 @@ else:
 
 client = gspread.authorize(creds)
 sheet = client.open("Hermanos_MCC").sheet1
+
 
 # Ruta principal
 @app.route("/", methods=["GET", "POST"])
