@@ -1,0 +1,6 @@
+[19136:11708:1220/160844.624:WARNING:chrome_main_delegate.cc(672)] This is Chrome version 131.0.6778.205 (not a warning)
+[19136:11708:1220/160844.670:INFO:chrome_browser_cloud_management_controller.cc(196)] No machine level policy manager exists.
+[8760:16300:1220/160844.768:INFO:cpu_info.cc(53)] Available number of cores: 16
+[17220:12924:1220/160844.793:WARNING:viz_main_impl.cc(85)] VizNullHypothesis is disabled (not a warning)
+[7892:3248:1220/160845.079:INFO:cpu_info.cc(53)] Available number of cores: 16
+[19136:11708:1220/160845.384:INFO:CONSOLE(155)] "Event handler of 'x-storagemutated-1' event must be added on the initial evaluation of worker script.", source: https://static.whatsapp.net/rsrc.php/v4/yN/r/G1xc7Db1UeS.js (155)

@@ -1,6 +1,1 @@
-48462213|Mensaje de Prueba de mensajes personalizados
-50318413|Mensaje de prueba de mansaje personalizado
-52263349|Mensaje de Prueba de mensajes personalizados
-50605443|Mensaje de Prueba de mensajes personalizados
-49054983|Mensaje de Prueba de mensajes personalizados
-50632690|Mensaje de Prueba de mensajes personalizados
+30157245|123

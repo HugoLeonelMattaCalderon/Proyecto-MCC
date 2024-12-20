@@ -8,16 +8,13 @@ import time
 
 # Configuración de Selenium para WhatsApp Web
 options = webdriver.ChromeOptions()
-options.add_argument("--headless")  # Para producción
-options.add_argument("--no-sandbox")
-options.add_argument("--disable-dev-shm-usage")
-options.add_argument("--disable-gpu")
-options.add_argument("--window-size=1920,1080")
-options.add_argument(f"user-data-dir={os.path.join(os.getcwd(), 'selenium_session')}")  # Guardar sesión
+options.add_argument("--start-maximized")
+options.add_argument("--disable-infobars")
+options.add_argument("--disable-extensions")
 
 driver = webdriver.Chrome(options=options)
 driver.get("https://web.whatsapp.com/")
-print("Iniciando sesión en WhatsApp Web...")
+print("Escanea el código QR para iniciar sesión en WhatsApp Web...")
 
 # Esperar a que WhatsApp Web esté completamente cargado
 try:
@@ -62,4 +59,5 @@ with open("mensajes_seleccionados.txt", "r") as file:
             continue
 
 print("Todos los mensajes han sido enviados.")
+input("Presiona Enter para cerrar el navegador...")
 driver.quit()

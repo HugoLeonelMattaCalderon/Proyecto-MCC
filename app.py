@@ -13,13 +13,19 @@ app.secret_key = "secreto"  # Clave para manejar mensajes temporales (flash)
 # 1. Define los permisos necesarios para acceder a las hojas de cálculo de Google
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
 
-# 2. Carga las credenciales desde una variable de entorno (configuración segura en Render)
-credentials_json = os.getenv("GOOGLE_CREDENTIALS")
-if credentials_json:  # Si las credenciales existen...
+# Detectar si se está ejecutando en local o en el servidor
+if os.getenv("GOOGLE_CREDENTIALS"):
+    # En el servidor: Carga las credenciales desde la variable de entorno
+    credentials_json = os.getenv("GOOGLE_CREDENTIALS")
     credentials_dict = json.loads(credentials_json)
     creds = ServiceAccountCredentials.from_json_keyfile_dict(credentials_dict, scope)
 else:
-    raise Exception("No se encontró la variable de entorno GOOGLE_CREDENTIALS")  # Error si no hay credenciales
+    # En local: Carga las credenciales desde el archivo `credenciales.json`
+    credentials_path = "credenciales.json"
+    if os.path.exists(credentials_path):
+        creds = ServiceAccountCredentials.from_json_keyfile_name(credentials_path, scope)
+    else:
+        raise Exception("No se encontró el archivo de credenciales. Asegúrate de que 'credenciales.json' esté en el directorio correcto.")
 
 # 3. Conecta con Google Sheets
 client = gspread.authorize(creds)
@@ -55,7 +61,7 @@ def enviar_mensajes_asistencia():
     # Encuentra la fecha más reciente de asistencia
     encabezados = sheet.row_values(1)
     fecha_mas_reciente = max([h for h in encabezados if h.startswith("202")], key=lambda d: datetime.strptime(d, "%Y-%m-%d"))
-    
+
     # Filtra los hermanos que no asistieron
     data = sheet.get_all_records()
     hermanos_a_enviar = [h for h in data if h[fecha_mas_reciente].strip().lower() == "no"]
@@ -167,38 +173,5 @@ def eliminar(id):
     flash(f"No se encontró el hermano con ID {id}.")
     return redirect(url_for("index"))
 
-# Nueva Ruta: Probar Selenium
-@app.route("/test_selenium")
-def test_selenium():
-    from selenium import webdriver
-    from selenium.webdriver.chrome.service import Service
-    from selenium.webdriver.chrome.options import Options
-    import os
-
-    # Configuración de Selenium
-    options = Options()
-    options.add_argument("--headless")  # Ejecutar sin interfaz gráfica
-    options.add_argument("--no-sandbox")  # Necesario en entornos de contenedor
-    options.add_argument("--disable-dev-shm-usage")  # Evitar problemas de memoria
-    options.add_argument("--disable-gpu")  # Desactivar uso de GPU
-    options.add_argument("--window-size=1920,1080")  # Definir tamaño de ventana
-
-    # Establecer la ubicación de Chrome y ChromeDriver en Render
-    options.binary_location = "/usr/bin/chromium-browser"  # Ruta de Chromium
-    service = Service("/usr/bin/chromedriver")  # Ruta de ChromeDriver
-
-    try:
-        # Iniciar el navegador con el driver y las opciones configuradas
-        driver = webdriver.Chrome(service=service, options=options)
-        driver.get("https://www.google.com")
-        title = driver.title
-        driver.quit()
-        return f"Selenium funcionó correctamente. Título de la página: {title}"
-    except Exception as e:
-        return f"Error al probar Selenium: {e}"
-
-
-
-
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0", port=5000)
