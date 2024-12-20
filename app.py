@@ -171,11 +171,9 @@ def eliminar(id):
 @app.route("/test_selenium")
 def test_selenium():
     from selenium import webdriver
+    from selenium.webdriver.chrome.service import Service
     from selenium.webdriver.chrome.options import Options
-    import chromedriver_autoinstaller
-
-    # Instalar automáticamente el driver de Chrome
-    chromedriver_autoinstaller.install()
+    import os
 
     # Configuración de Selenium
     options = Options()
@@ -184,16 +182,23 @@ def test_selenium():
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-gpu")
     options.add_argument("--window-size=1920,1080")
+    
+    # Ruta del ejecutable de Chrome (Render instala Chrome aquí)
+    chrome_path = "/usr/bin/chromium-browser"
+    options.binary_location = chrome_path
+
+    # Instalar y configurar ChromeDriver
+    service = Service(executable_path="/usr/bin/chromedriver")
 
     try:
-        # Inicia el navegador
-        driver = webdriver.Chrome(options=options)
+        driver = webdriver.Chrome(service=service, options=options)
         driver.get("https://www.google.com")
         title = driver.title
         driver.quit()
         return f"Selenium funcionó correctamente. Título de la página: {title}"
     except Exception as e:
         return f"Error al probar Selenium: {e}"
+
 
 
 if __name__ == "__main__":
