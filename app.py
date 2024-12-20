@@ -3,13 +3,22 @@ from oauth2client.service_account import ServiceAccountCredentials
 import gspread
 from datetime import datetime
 import subprocess
+import os
+import json
+from oauth2client.service_account import ServiceAccountCredentials
 
 app = Flask(__name__)
 app.secret_key = "secreto"
 
 # Configuración de Google Sheets API
-scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds = ServiceAccountCredentials.from_json_keyfile_name("credenciales.json", scope)
+# Cargar las credenciales desde la variable de entorno
+credentials_json = os.getenv("GOOGLE_CREDENTIALS")  # Carga el contenido de la variable de entorno
+if credentials_json:
+    credentials_dict = json.loads(credentials_json)  # Convierte la cadena JSON a un diccionario
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(credentials_dict, scope)
+else:
+    raise Exception("No se encontró la variable de entorno GOOGLE_CREDENTIALS")
+
 client = gspread.authorize(creds)
 sheet = client.open("Hermanos_MCC").sheet1
 
