@@ -177,20 +177,18 @@ def test_selenium():
 
     # Configuración de Selenium
     options = Options()
-    options.add_argument("--headless")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--disable-gpu")
-    options.add_argument("--window-size=1920,1080")
-    
-    # Ruta del ejecutable de Chrome (Render instala Chrome aquí)
-    chrome_path = "/usr/bin/chromium-browser"
-    options.binary_location = chrome_path
+    options.add_argument("--headless")  # Ejecutar sin interfaz gráfica
+    options.add_argument("--no-sandbox")  # Necesario en entornos de contenedor
+    options.add_argument("--disable-dev-shm-usage")  # Evitar problemas de memoria
+    options.add_argument("--disable-gpu")  # Desactivar uso de GPU
+    options.add_argument("--window-size=1920,1080")  # Definir tamaño de ventana
 
-    # Instalar y configurar ChromeDriver
-    service = Service(executable_path="/usr/bin/chromedriver")
+    # Establecer la ubicación de Chrome y ChromeDriver en Render
+    options.binary_location = "/usr/bin/chromium-browser"  # Ruta de Chromium
+    service = Service("/usr/bin/chromedriver")  # Ruta de ChromeDriver
 
     try:
+        # Iniciar el navegador con el driver y las opciones configuradas
         driver = webdriver.Chrome(service=service, options=options)
         driver.get("https://www.google.com")
         title = driver.title
@@ -198,6 +196,7 @@ def test_selenium():
         return f"Selenium funcionó correctamente. Título de la página: {title}"
     except Exception as e:
         return f"Error al probar Selenium: {e}"
+
 
 
 
