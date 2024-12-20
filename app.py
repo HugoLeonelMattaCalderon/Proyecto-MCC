@@ -172,7 +172,12 @@ def eliminar(id):
 def test_selenium():
     from selenium import webdriver
     from selenium.webdriver.chrome.options import Options
+    import chromedriver_autoinstaller
 
+    # Instalar automáticamente el driver de Chrome
+    chromedriver_autoinstaller.install()
+
+    # Configuración de Selenium
     options = Options()
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
@@ -181,6 +186,7 @@ def test_selenium():
     options.add_argument("--window-size=1920,1080")
 
     try:
+        # Inicia el navegador
         driver = webdriver.Chrome(options=options)
         driver.get("https://www.google.com")
         title = driver.title
@@ -188,6 +194,7 @@ def test_selenium():
         return f"Selenium funcionó correctamente. Título de la página: {title}"
     except Exception as e:
         return f"Error al probar Selenium: {e}"
+
 
 if __name__ == "__main__":
     app.run(debug=True)
