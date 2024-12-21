@@ -1,0 +1,40 @@
+<!-- admin_users.html -->
+<h1>Administración de usuarios</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Usuario</th>
+      <th>Rol</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for user in users %}
+    <tr>
+      <td>{{ user.id }}</td>
+      <td>{{ user.username }}</td>
+      <td>{{ user.role }}</td>
+      <td>
+        <!-- Enlace para eliminar usuario -->
+        <a href="{{ url_for('delete_user', id=user.id) }}" class="btn btn-danger">
+          Eliminar
+        </a>
+
+        <!-- Si el usuario no es admin, le damos la opción de hacerlo admin -->
+        {% if user.role != 'admin' %}
+          <a href="{{ url_for('set_role', user_id=user.id, role='admin') }}" class="btn btn-secondary">
+            Hacer Admin
+          </a>
+        {% else %}
+          <!-- Si el usuario ya es admin, podemos revertirlo a 'user' -->
+          <a href="{{ url_for('set_role', user_id=user.id, role='user') }}" class="btn btn-secondary">
+            Hacer User
+          </a>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

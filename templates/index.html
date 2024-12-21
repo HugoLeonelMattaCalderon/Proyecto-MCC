@@ -15,13 +15,27 @@
         <div class="header-image"></div>
     </div>
 
+    <div class="header">
+        <div class="header-content">
+            <h1>Toma de Asistencias</h1>
+        </div>
+        <div class="header-image"></div>
+        <!-- Botón de Logout -->
+        <div style="text-align: right; margin: 10px;">
+            <a href="{{ url_for('logout') }}" class="btn-red" style="padding: 10px; text-decoration: none;">
+                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+            </a>
+        </div>
+    </div>
+    
+
     <!-- Lista de hermanos después del encabezado -->
     <div style="margin-top: 20px;">
         <h2>Lista de Hermanos</h2>
         <!-- Fila con botones y ventana de mensajes personalizados -->
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
             <!-- Botón para enviar mensajes a los inasistentes -->
-            <form method="POST" action="/enviar_mensajes_asistencia">
+            <form method="POST" action="{{ url_for('enviar_mensajes_asistencia') }}">
                 <button type="submit" class="btn-green">
                     <i class="fas fa-paper-plane"></i> Enviar Mensajes (Inasistentes)
                 </button>
@@ -29,7 +43,7 @@
             <!-- Espaciado flexible -->
             <div style="flex-grow: 1;"></div>
             <!-- Botón y ventana de mensajes personalizados -->
-            <form id="mensajePersonalizadoForm" method="POST" action="/enviar_mensajes_personalizados" style="display: flex; gap: 10px;">
+            <form id="mensajePersonalizadoForm" method="POST" action="{{ url_for('enviar_mensajes_personalizados') }}" style="display: flex; gap: 10px;">
                 <textarea id="mensaje_personalizado" name="mensaje_personalizado" rows="1" placeholder="Escribe tu mensaje aquí..." required></textarea>
                 <button type="submit" class="btn-blue">
                     <i class="fas fa-envelope"></i> Enviar Mensajes Personalizados
@@ -38,7 +52,7 @@
         </div>
 
         <!-- Único listado de hermanos -->
-        <form method="POST" action="/">
+        <form method="POST" action="{{ url_for('index') }}">
             <table>
                 <tr>
                     <th>Seleccionar</th> <!-- Para mensajes personalizados -->
@@ -82,7 +96,7 @@
 
     <!-- Formulario para agregar nuevo hermano -->
     <h2>Agregar Nuevo Hermano</h2>
-    <form method="POST" action="/agregar">
+    <form method="POST" action="{{ url_for('agregar') }}">
         <label for="nombre">Nombre Completo:</label>
         <input type="text" id="nombre" name="nombre" required><br>
         <label for="telefono">Teléfono:</label>

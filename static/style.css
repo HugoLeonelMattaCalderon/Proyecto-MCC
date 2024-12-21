@@ -190,3 +190,18 @@ form div {
         margin: 10px 0;
     }
 }
+
+.btn-red {
+    background-color: #dc3545; /* Rojo */
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    text-align: center;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-red:hover {
+    background-color: #c82333; /* Rojo más oscuro */
+    text-decoration: none;
+}
